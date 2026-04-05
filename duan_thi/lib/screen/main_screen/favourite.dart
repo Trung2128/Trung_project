@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:duan_thi/model/favourite_store.dart';
 import 'package:duan_thi/model/recipe_model.dart';
+import 'package:duan_thi/screen/recipe_screen/recipe_detail.dart';
 
 class FavoriteScreen extends StatefulWidget {
   final bool isLoggedIn;
@@ -146,6 +147,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   // --- HIỂN THỊ DANH SÁCH (Giữ nguyên ListView đã viết trước đó) ---
+  // --- HIỂN THỊ DANH SÁCH ---
   Widget _buildFavoriteList(List<Recipe> recipes) {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -155,14 +157,27 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         return Card(
           color: const Color(0xFF1A1A1A),
           margin: const EdgeInsets.only(bottom: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                recipe.image,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+            leading: Hero(
+              tag:
+                  'recipe-image-${recipe.id}', // Thêm Hero để hiệu ứng mượt hơn
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  recipe.image,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.restaurant, color: Colors.grey),
+                ),
               ),
             ),
             title: Text(
@@ -173,20 +188,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ),
             ),
             subtitle: Text(
-              recipe.cuisine,
+              '${recipe.cuisine} • ${recipe.difficulty}',
               style: const TextStyle(color: Colors.grey),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.favorite, color: Colors.red),
-              onPressed: () => setState(() => FavoriteStore.toggle(recipe)),
+              onPressed: () => FavoriteStore.toggle(
+                recipe,
+              ), // Không cần setState vì ValueListenableBuilder sẽ lo
             ),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     // builder: (_) => RecipeDetailScreen(recipe: recipe.toJson()),
-              //   ),
-              // );
+              // Chuyển sang màn hình chi tiết
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => RecipeDetailScreen(
+                    // Vì RecipeDetailScreen nhận Map nên mình dùng toJson()
+                    recipe: recipe.toJson(),
+                  ),
+                ),
+              );
             },
           ),
         );

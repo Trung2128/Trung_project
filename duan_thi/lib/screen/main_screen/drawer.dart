@@ -173,7 +173,7 @@ class DrawerScreen extends StatelessWidget {
                     _authorInfoItem(
                       context,
                       "GitHub",
-                      "https://github.com/nguyenquangtrung",
+                      "https://github.com/Trung2128/Trung_project",
                     ),
                   ],
                 ),

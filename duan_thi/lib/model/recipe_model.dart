@@ -1,50 +1,50 @@
 class Recipe {
   final int id;
   final String name;
-  final List<String> ingredients;    // Danh sách nguyên liệu
-  final List<String> instructions;   // Các bước thực hiện
-  final int prepTimeMinutes;         // Thời gian chuẩn bị
-  final int cookTimeMinutes;         // Thời gian nấu
-  final int servings;                // Khẩu phần (số người ăn)
-  final String difficulty;           // Độ khó (Easy, Medium...)
-  final String cuisine;              // Loại ẩm thực (Italian, Asian...)
-  final int caloriesPerServing;      // Calo mỗi phần
-  final String image;                // Hình ảnh món ăn
-  final double rating;               // Đánh giá
-  final int reviewCount;             // Số lượng đánh giá
+  final String image;
+  final double rating;
+  final String cuisine;
+  final String difficulty;
+  final int caloriesPerServing;
+  final List<String> ingredients;
+  final List<String> instructions;
+  final int prepTimeMinutes;
+  final int cookTimeMinutes;
+  final int servings;
+  final int reviewCount;
 
   Recipe({
     required this.id,
     required this.name,
+    required this.image,
+    required this.rating,
+    required this.cuisine,
+    required this.difficulty,
+    required this.caloriesPerServing,
     required this.ingredients,
     required this.instructions,
     required this.prepTimeMinutes,
     required this.cookTimeMinutes,
     required this.servings,
-    required this.difficulty,
-    required this.cuisine,
-    required this.caloriesPerServing,
-    required this.image,
-    required this.rating,
     required this.reviewCount,
   });
 
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      // Ép kiểu List<dynamic> từ JSON sang List<String>
-      ingredients: List<String>.from(json['ingredients'] ?? []),
-      instructions: List<String>.from(json['instructions'] ?? []),
-      prepTimeMinutes: json['prepTimeMinutes'] ?? 0,
-      cookTimeMinutes: json['cookTimeMinutes'] ?? 0,
-      servings: json['servings'] ?? 0,
-      difficulty: json['difficulty'] ?? 'Dễ',
-      cuisine: json['cuisine'] ?? '',
-      caloriesPerServing: json['caloriesPerServing'] ?? 0,
-      image: json['image'] ?? '',
-      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      reviewCount: json['reviewCount'] ?? 0,
-    );
+  // --- THÊM ĐOẠN NÀY VÀO ---
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'image': image,
+      'rating': rating,
+      'cuisine': cuisine,
+      'difficulty': difficulty,
+      'caloriesPerServing': caloriesPerServing,
+      'ingredients': ingredients,
+      'instructions': instructions,
+      'prepTimeMinutes': prepTimeMinutes,
+      'cookTimeMinutes': cookTimeMinutes,
+      'servings': servings,
+      'reviewCount': reviewCount,
+    };
   }
 }
